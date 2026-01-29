@@ -1,7 +1,0 @@
-Use Case Diagram:
-
-This diagram shows the main actors interacting with the Library Management System. The two main actors are Librarian and Member.
-
-a) The Librarian can add, update, and remove books, register and manage members, and manage late fines.
-b) The Member can search for books, borrow and return books, and view borrowing history.
-This diagram highlights the functional requirements of the system from a user perspective.
