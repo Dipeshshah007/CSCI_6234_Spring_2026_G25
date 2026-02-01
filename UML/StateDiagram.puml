@@ -1,0 +1,7 @@
+@startuml
+[*] --> Available
+Available --> Borrowed : borrow()
+Borrowed --> Overdue : due date passed
+Borrowed --> Available : return()
+Overdue --> Available : return()
+@enduml
