@@ -1,0 +1,14 @@
+@startuml
+object Member
+object Book
+object LibrarySystem
+object Librarian
+
+Member -> LibrarySystem : searchBook()
+LibrarySystem -> Book : checkAvailability()
+LibrarySystem -> Member : showResult()
+Member -> LibrarySystem : borrowBook()
+LibrarySystem -> Book : markAsBorrowed()
+LibrarySystem -> Librarian : updateRecord()
+LibrarySystem -> Member : confirmBorrow()
+@enduml
