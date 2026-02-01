@@ -1,0 +1,15 @@
+@startuml
+package "Library Management System" {
+  component "Catalog Management"
+  component "Member Management"
+  component "Borrow/Return System"
+  component "Fines System"
+  component "Search Engine"
+}
+
+Librarian --> "Catalog Management"
+Librarian --> "Member Management"
+Member --> "Search Engine"
+Member --> "Borrow/Return System"
+"Borrow/Return System" --> "Fines System"
+@enduml
