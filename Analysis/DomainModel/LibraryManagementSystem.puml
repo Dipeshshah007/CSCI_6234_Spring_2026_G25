@@ -1,0 +1,101 @@
+@startuml LibraryManagementSystem
+title Library Management System — Domain Model
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam class {
+  BackgroundColor #EEF2F8
+  BorderColor #1B2A4A
+  HeaderBackgroundColor #1B2A4A
+  HeaderFontColor White
+  ArrowColor #1B2A4A
+}
+
+abstract class User {
+  - userId : String
+  - name : String
+  - email : String
+  - phone : String
+  - password : String
+}
+
+class Member {
+  - memberId : String
+  - membershipDate : Date
+  - membershipStatus : String
+}
+
+class Librarian {
+  - employeeId : String
+  - hireDate : Date
+  - department : String
+}
+
+class Catalog {
+  - catalogId : String
+  - name : String
+  - lastUpdated : Date
+  - totalBooks : int
+}
+
+class Book {
+  - bookId : String
+  - title : String
+  - author : String
+  - ISBN : String
+  - category : String
+  - availableCopies : int
+}
+
+class LoanRecord {
+  - loanId : String
+  - loanDate : Date
+  - dueDate : Date
+  - returnDate : Date
+  - status : String
+}
+
+class FineRecord {
+  - fineId : String
+  - amount : double
+  - issuedDate : Date
+  - status : String
+}
+
+class PaymentTransaction {
+  - transactionId : String
+  - paymentDate : Date
+  - amountPaid : double
+  - method : String
+}
+
+class TransactionHistory {
+  - historyId : String
+  - generatedDate : Date
+  - period : String
+  - totalLoans : int
+}
+
+class Report {
+  - reportId : String
+  - reportType : String
+  - generatedDate : Date
+  - generatedBy : String
+}
+
+' Inheritance
+User <|-- Member
+User <|-- Librarian
+
+' Associations
+Librarian "1" --> "1" Catalog : manages
+Catalog "1" *-- "1..*" Book : contains
+Book "1" -- "0..*" LoanRecord : involved in
+Member "1" -- "0..*" LoanRecord : borrows
+LoanRecord "1" -- "0..1" FineRecord : generates
+FineRecord "1" -- "0..1" PaymentTransaction : settled by
+Member "1" -- "0..*" PaymentTransaction : makes
+LoanRecord "1..*" -- "1" TransactionHistory : aggregated in
+Librarian "1" -- "0..*" Report : generates
+Report "1" -- "1" TransactionHistory : uses
+
+@enduml
