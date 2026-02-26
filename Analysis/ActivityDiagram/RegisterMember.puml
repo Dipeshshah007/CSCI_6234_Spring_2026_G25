@@ -1,0 +1,45 @@
+@startuml RegisterMember
+title Activity Diagram: Register Member
+
+' Description:
+' This activity diagram describes the process of registering a new member in the library system.
+' Steps:
+' 1. Librarian initiates member registration.
+' 2. Librarian enters member details (name, email, phone, password).
+' 3. System validates the input fields for completeness and format.
+' 4. If input is invalid, system shows validation errors and prompts re-entry.
+' 5. System checks if the email is already registered in the system.
+' 6. If email exists, system notifies the librarian of a duplicate account.
+' 7. If email is new, system creates a new Member account with active status.
+' 8. System assigns a unique member ID.
+' 9. System sends a welcome/confirmation notification to the member's email.
+' 10. Librarian receives confirmation of successful registration.
+' 11. Activity ends.
+
+|Librarian|
+start
+:Initiate Member Registration;
+:Enter Member Details\n(name, email, phone, password);
+|System|
+:Validate Input Fields;
+if (Input Valid?) then (yes)
+  :Check for Duplicate Email;
+  if (Email Already Exists?) then (yes)
+    :Notify Duplicate Account;
+    |Librarian|
+    :Informed of Duplicate;
+  else (no)
+    :Create Member Account;
+    :Assign Unique Member ID;
+    :Set Account Status to Active;
+    :Send Confirmation Email;
+    |Librarian|
+    :Confirm Successful Registration;
+  endif
+else (no)
+  :Display Validation Errors;
+  |Librarian|
+  :Re-enter Member Details;
+endif
+stop
+@enduml

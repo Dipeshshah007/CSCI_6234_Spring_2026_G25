@@ -1,0 +1,45 @@
+@startuml SearchBook
+title Activity Diagram: Search Book
+
+' Description:
+' This activity diagram describes the process of searching for a book in the catalog.
+' Steps:
+' 1. Member initiates a search by entering search criteria (title, author, or category).
+' 2. System validates that the search input is not empty.
+' 3. If input is empty, system prompts the member to enter valid criteria.
+' 4. System queries the catalog database using the provided criteria.
+' 5. System checks whether matching results were found.
+' 6. If no results are found, system notifies the member.
+' 7. If results are found, system displays the list of matching books with availability status.
+' 8. Member reviews the results and selects a book for more details.
+' 9. System displays detailed information including title, author, ISBN, and copies available.
+' 10. Activity ends.
+
+|Member|
+start
+:Enter Search Criteria\n(title, author, or category);
+|System|
+:Validate Search Input;
+if (Input Valid?) then (yes)
+  :Query Catalog Database;
+  if (Results Found?) then (yes)
+    :Display Matching Books\nwith Availability;
+    |Member|
+    :Review Results;
+    :Select a Book;
+    |System|
+    :Display Book Details\n(title, author, ISBN, copies);
+    |Member|
+    :View Book Details;
+  else (no)
+    :Notify No Results Found;
+    |Member|
+    :Informed - No Match;
+  endif
+else (no)
+  :Prompt for Valid Input;
+  |Member|
+  :Re-enter Criteria;
+endif
+stop
+@enduml

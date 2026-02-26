@@ -1,0 +1,64 @@
+@startuml ManageCatalog
+title Activity Diagram: Manage Catalog
+
+' Description:
+' This activity diagram describes the process of managing the book catalog by the librarian.
+' Steps:
+' 1. Librarian logs into the system and navigates to catalog management.
+' 2. Librarian selects an action: Add Book, Update Book, or Remove Book.
+' 3. For Add Book: Librarian enters book details (title, author, ISBN, category, copies).
+'    3a. System validates the input and checks for duplicate ISBN.
+'    3b. If duplicate, system notifies the librarian.
+'    3c. If valid, system saves the new book record to the catalog.
+' 4. For Update Book: Librarian searches for the book and modifies fields.
+'    4a. System validates and saves the updated information.
+' 5. For Remove Book: Librarian selects the book to remove.
+'    5a. System checks if the book has any active loans.
+'    5b. If active loans exist, system prevents removal and notifies the librarian.
+'    5c. If no active loans, system removes the book from the catalog.
+' 6. System confirms the action performed.
+' 7. Activity ends.
+
+|Librarian|
+start
+:Navigate to Catalog Management;
+:Select Action;
+if (Action?) then (Add Book)
+  :Enter Book Details\n(title, author, ISBN, category, copies);
+  |System|
+  :Validate Input & Check Duplicate ISBN;
+  if (Duplicate ISBN?) then (yes)
+    :Notify Duplicate Book;
+    |Librarian|
+    :Informed of Duplicate;
+  else (no)
+    :Save New Book to Catalog;
+    :Confirm Book Added;
+    |Librarian|
+    :Book Added Successfully;
+  endif
+elseif (Update Book) then
+  :Search & Select Book;
+  :Modify Book Details;
+  |System|
+  :Validate & Save Updates;
+  :Confirm Book Updated;
+  |Librarian|
+  :Book Updated Successfully;
+else (Remove Book)
+  :Search & Select Book;
+  |System|
+  :Check for Active Loans;
+  if (Active Loans Exist?) then (yes)
+    :Prevent Removal & Notify;
+    |Librarian|
+    :Informed Cannot Remove;
+  else (no)
+    :Remove Book from Catalog;
+    :Confirm Book Removed;
+    |Librarian|
+    :Book Removed Successfully;
+  endif
+endif
+stop
+@enduml

@@ -1,0 +1,53 @@
+@startuml GenerateReport
+title Activity Diagram: Generate Report
+
+' Description:
+' This activity diagram describes the process of generating a report by the librarian.
+' Steps:
+' 1. Librarian navigates to the report generation section.
+' 2. Librarian selects the type of report (borrowing history, overdue books, fine summary, or inventory).
+' 3. Librarian specifies any filters (date range, member ID, book category).
+' 4. System validates the selected filters.
+' 5. If filters are invalid, system prompts the librarian to correct them.
+' 6. System queries TransactionHistory and relevant records based on filter criteria.
+' 7. System compiles data into a structured report format.
+' 8. System displays the report on screen.
+' 9. Librarian reviews the report.
+' 10. Librarian chooses to export the report (PDF/CSV) or finish.
+' 11. If export is chosen, system generates the file and provides a download link.
+' 12. Activity ends.
+
+|Librarian|
+start
+:Navigate to Report Section;
+:Select Report Type\n(Borrowing / Overdue / Fines / Inventory);
+:Specify Filters\n(date range, member, category);
+|System|
+:Validate Filter Criteria;
+if (Filters Valid?) then (yes)
+  :Query TransactionHistory & Records;
+  fork
+    :Aggregate Borrowing Data;
+  fork again
+    :Aggregate Fine Data;
+  end fork
+  :Compile Report;
+  :Display Report on Screen;
+  |Librarian|
+  :Review Report;
+  if (Export Report?) then (yes)
+    |System|
+    :Generate Export File\n(PDF or CSV);
+    :Provide Download Link;
+    |Librarian|
+    :Download Report;
+  else (no)
+    :Finish;
+  endif
+else (no)
+  :Prompt to Correct Filters;
+  |Librarian|
+  :Re-enter Filter Criteria;
+endif
+stop
+@enduml

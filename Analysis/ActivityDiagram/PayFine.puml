@@ -1,0 +1,44 @@
+@startuml PayFine
+title Activity Diagram: Pay Fine
+
+' Description:
+' This activity diagram describes the process of paying an overdue fine.
+' Steps:
+' 1. Member logs in and navigates to the fine payment section.
+' 2. System retrieves all outstanding fine records for the member.
+' 3. System checks whether there are any unpaid fines.
+' 4. If no fines are outstanding, system informs the member and ends the process.
+' 5. If fines exist, system displays the list of fines with amounts and associated books.
+' 6. Member selects the fine(s) to pay.
+' 7. Member confirms the payment.
+' 8. System processes the payment and creates a PaymentTransaction record.
+' 9. System marks the fine record as paid.
+' 10. System updates the member's account status if previously blocked.
+' 11. System sends a payment receipt/confirmation to the member.
+' 12. Activity ends.
+
+|Member|
+start
+:Navigate to Fine Payment;
+|System|
+:Retrieve Outstanding Fines;
+if (Fines Outstanding?) then (yes)
+  :Display Fine List\n(amount, book, due date);
+  |Member|
+  :Select Fine(s) to Pay;
+  :Confirm Payment;
+  |System|
+  :Process Payment;
+  :Create PaymentTransaction Record;
+  :Mark Fine as Paid;
+  :Update Member Account Status;
+  :Send Payment Receipt;
+  |Member|
+  :Receive Receipt;
+else (no)
+  :Notify No Outstanding Fines;
+  |Member|
+  :Informed - No Fines Due;
+endif
+stop
+@enduml

@@ -1,0 +1,39 @@
+@startuml ReturnBook
+title Activity Diagram: Return Book
+
+' Description:
+' This activity diagram describes the process of returning a borrowed book.
+' Steps:
+' 1. Member presents the book for return.
+' 2. System looks up the loan record associated with the book and member.
+' 3. System checks whether the return date is past the due date.
+' 4. If overdue, system calculates the fine amount based on days overdue.
+' 5. System creates a fine record and notifies the member of the fine owed.
+' 6. If on time, no fine is generated.
+' 7. System marks the loan record as returned and records the return date.
+' 8. System increments the available copy count of the book.
+' 9. System confirms the successful return to the member.
+' 10. Activity ends.
+
+|Member|
+start
+:Present Book for Return;
+|System|
+:Look Up Loan Record;
+:Check Return Date vs Due Date;
+if (Overdue?) then (yes)
+  :Calculate Fine Amount;
+  :Create Fine Record;
+  :Notify Member of Fine;
+  |Member|
+  :Acknowledge Fine;
+  |System|
+else (no (on time))
+endif
+:Mark Loan as Returned;
+:Update Book Copy Count (+1);
+:Confirm Return to Member;
+|Member|
+:Receive Return Confirmation;
+stop
+@enduml

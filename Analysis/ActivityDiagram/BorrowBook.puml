@@ -1,0 +1,45 @@
+@startuml BorrowBook
+title Activity Diagram: Borrow Book
+
+' Description:
+' This activity diagram describes the process of borrowing a book in the Library Management System.
+' Steps:
+' 1. Member searches for a book by title, author, or ISBN.
+' 2. System checks if the book is available in the catalog.
+' 3. If not available, system notifies the member and ends the process.
+' 4. If available, member requests to borrow the book.
+' 5. System verifies member account status (active, no overdue books exceeding limit).
+' 6. If account is invalid or blocked, system notifies the member and ends the process.
+' 7. System creates a loan record with due date (typically 14 days).
+' 8. System decrements the available copy count of the book.
+' 9. System confirms the loan to the member with due date information.
+' 10. Activity ends.
+
+|Member|
+start
+:Search for Book;
+|System|
+:Check Book Availability;
+if (Book Available?) then (yes)
+  |Member|
+  :Request to Borrow;
+  |System|
+  :Verify Member Account;
+  if (Account Valid?) then (yes)
+    :Create Loan Record;
+    :Update Book Copy Count;
+    :Send Confirmation & Due Date;
+    |Member|
+    :Receive Confirmation;
+  else (no)
+    :Notify Account Issue;
+    |Member|
+    :Notified of Block;
+  endif
+else (no)
+  :Notify Unavailable;
+  |Member|
+  :Notified Unavailable;
+endif
+stop
+@enduml
