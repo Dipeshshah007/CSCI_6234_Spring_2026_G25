@@ -1,0 +1,143 @@
+@startuml ClassDiagram
+skinparam backgroundColor white
+skinparam ClassBackgroundColor white
+skinparam ClassBorderColor black
+skinparam ArrowColor black
+skinparam classArrowThickness 1.5
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 11
+
+title Class Diagram — Library Management System
+
+abstract class User {
+  - userId : String
+  - name : String
+  - email : String
+  - phone : String
+  - password : String
+  --
+  + login(): Boolean
+  + logout(): void
+  + getUserId(): String
+  + getName(): String
+}
+
+class Member {
+  - memberId : String
+  - membershipDate : Date
+  - membershipStatus : String
+  --
+  + borrowBook(ISBN: String): void
+  + returnBook(ISBN: String): void
+  + searchBook(query: String): List
+  + payFine(fineId: String): void
+  + getMemberId(): String
+}
+
+class Librarian {
+  - employeeId : String
+  - hireDate : Date
+  - department : String
+  --
+  + manageCatalog(): void
+  + registerMember(data: Map): Member
+  + generateReport(type: String): Report
+  + getEmployeeId(): String
+}
+
+class Catalog {
+  - catalogId : String
+  - name : String
+  - lastUpdated : Date
+  - totalBooks : int
+  --
+  + addBook(book: Book): void
+  + removeBook(ISBN: String): void
+  + search(query: String): List
+  + getCatalogId(): String
+}
+
+class Book {
+  - bookId : String
+  - title : String
+  - author : String
+  - ISBN : String
+  - category : String
+  - availableCopies : int
+  --
+  + getBookId(): String
+  + getTitle(): String
+  + checkAvailability(): Boolean
+  + updateCopies(n: int): void
+}
+
+class LoanRecord {
+  - loanId : String
+  - loanDate : Date
+  - dueDate : Date
+  - returnDate : Date
+  - status : String
+  --
+  + getLoanId(): String
+  + updateStatus(status: String): void
+  + getDueDate(): Date
+  + isOverdue(): Boolean
+}
+
+class TransactionHistory {
+  - historyId : String
+  - generatedDate : Date
+  - period : String
+  - totalLoans : int
+  --
+  + addLoanRecord(record: LoanRecord): void
+  + getRecords(period: String): List
+  + getHistoryId(): String
+}
+
+class FineRecord {
+  - fineId : String
+  - amount : double
+  - issuedDate : Date
+  - status : String
+  --
+  + getFineId(): String
+  + markAsPaid(): void
+  + getAmount(): double
+  + getStatus(): String
+}
+
+class PaymentTransaction {
+  - transactionId : String
+  - paymentDate : Date
+  - amountPaid : double
+  - method : String
+  --
+  + getTransactionId(): String
+  + getAmountPaid(): double
+  + getMethod(): String
+}
+
+class Report {
+  - reportId : String
+  - reportType : String
+  - generatedDate : Date
+  - generatedBy : String
+  --
+  + getReportId(): String
+  + getReportType(): String
+  + display(): void
+}
+
+User <|-- Member
+User <|-- Librarian
+Librarian "1" --> "1" Catalog : manages
+Catalog "1" o-- "1..*" Book : contains
+Member "1" --> "0..*" LoanRecord : borrows
+LoanRecord "1.*" o-- "1" TransactionHistory : aggregated in
+LoanRecord "1" --> "0..1" FineRecord : generates
+FineRecord "1" --> "0..1" PaymentTransaction : settled by
+TransactionHistory "1" --> "1" Report : uses
+Librarian "1" --> "0..*" Report : generates
+
+@enduml
