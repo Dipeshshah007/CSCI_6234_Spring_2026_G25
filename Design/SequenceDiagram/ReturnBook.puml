@@ -1,0 +1,36 @@
+@startuml ReturnBook
+skinparam backgroundColor white
+skinparam SequenceBoxBackgroundColor white
+skinparam SequenceBoxBorderColor black
+skinparam ParticipantBackgroundColor white
+skinparam ParticipantBorderColor black
+skinparam SequenceLifeLineBorderColor black
+skinparam ArrowColor black
+skinparam sequenceArrowThickness 1.5
+skinparam roundcorner 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 11
+
+title Return Book
+
+actor Member
+boundary ReturnScreen
+control ReturnController
+entity Book
+boundary ScanInterface
+control DateValidator
+entity LoanRecord
+
+Member -> ReturnScreen : initiate(ISBN)
+ReturnScreen -> ReturnController : submit(memberId, ISBN)
+ReturnController -> Book : update(availableCopies)
+Book --> ReturnController : confirm()
+Member -> ScanInterface : process(ISBN)
+ScanInterface -> DateValidator : scan(ISBN)
+DateValidator -> LoanRecord : close(loanId, returnDate, status)
+LoanRecord --> DateValidator : loanRecord(dueDate)
+DateValidator -> DateValidator : calculateFine(dueDate, returnDate)
+DateValidator --> ScanInterface : fineAmount
+ReturnController --> ReturnScreen : display(returnSummary, fineAmount)
+
+@enduml

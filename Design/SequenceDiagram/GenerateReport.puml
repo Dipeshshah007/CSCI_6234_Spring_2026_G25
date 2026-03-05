@@ -1,0 +1,35 @@
+@startuml GenerateReport
+skinparam backgroundColor white
+skinparam SequenceBoxBackgroundColor white
+skinparam SequenceBoxBorderColor black
+skinparam ParticipantBackgroundColor white
+skinparam ParticipantBorderColor black
+skinparam SequenceLifeLineBorderColor black
+skinparam ArrowColor black
+skinparam sequenceArrowThickness 1.5
+skinparam roundcorner 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 11
+
+title Generate Report
+
+actor Librarian
+boundary ReportDashboard
+control ReportGenerator
+entity TransactionHistory
+boundary ReportViewer
+control DataAggregator
+entity Report
+
+Librarian -> ReportDashboard : request(reportType, period)
+ReportDashboard -> ReportGenerator : initiate(reportType, period)
+ReportGenerator -> TransactionHistory : query(period)
+TransactionHistory --> ReportGenerator : loanRecords(historyId, totalLoans, generatedDate)
+ReportGenerator -> DataAggregator : query(loanRecords)
+DataAggregator -> DataAggregator : aggregateData(loanRecords)
+DataAggregator -> Report : create(reportId, reportType, generatedDate, generatedBy)
+Report --> DataAggregator : report
+DataAggregator -> ReportViewer : display(report)
+ReportViewer --> Librarian : showReport(reportType, generatedDate)
+
+@enduml

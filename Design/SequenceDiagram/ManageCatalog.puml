@@ -1,0 +1,36 @@
+@startuml ManageCatalog
+skinparam backgroundColor white
+skinparam SequenceBoxBackgroundColor white
+skinparam SequenceBoxBorderColor black
+skinparam ParticipantBackgroundColor white
+skinparam ParticipantBorderColor black
+skinparam SequenceLifeLineBorderColor black
+skinparam ArrowColor black
+skinparam sequenceArrowThickness 1.5
+skinparam roundcorner 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 11
+
+title Manage Catalog
+
+actor Librarian
+boundary CatalogScreen
+control CatalogController
+entity Catalog
+boundary BookForm
+control Validator
+entity Book
+
+Librarian -> CatalogScreen : access()
+CatalogScreen -> CatalogController : request()
+CatalogController -> Catalog : retrieve()
+Catalog --> CatalogController : catalogData
+CatalogController --> CatalogScreen : display(catalogData)
+Librarian -> BookForm : enterData(title, author, ISBN, category, availableCopies)
+BookForm -> Validator : validate(bookData)
+Validator -> Book : update(title, author, ISBN, category, availableCopies)
+Book --> Validator : confirm()
+Validator --> Catalog : confirm()
+CatalogController --> CatalogScreen : display("Book added successfully")
+
+@enduml
