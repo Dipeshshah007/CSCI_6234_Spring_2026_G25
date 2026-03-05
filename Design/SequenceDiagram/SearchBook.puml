@@ -1,0 +1,34 @@
+@startuml SearchBook
+skinparam backgroundColor white
+skinparam SequenceBoxBackgroundColor white
+skinparam SequenceBoxBorderColor black
+skinparam ParticipantBackgroundColor white
+skinparam ParticipantBorderColor black
+skinparam SequenceLifeLineBorderColor black
+skinparam ArrowColor black
+skinparam sequenceArrowThickness 1.5
+skinparam roundcorner 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 11
+
+title Search Book
+
+actor Member
+boundary SearchInterface
+control SearchController
+entity Catalog
+boundary ResultsPage
+control QueryProcessor
+entity Book
+
+Member -> SearchInterface : enterQuery(title / author / category)
+SearchInterface -> SearchController : submit(query)
+SearchController -> Catalog : search(query)
+Catalog --> SearchController : bookList
+SearchController -> QueryProcessor : retrieve(bookList)
+QueryProcessor -> Book : retrieve(bookId)
+Book --> QueryProcessor : bookDetails(title, author, ISBN, availableCopies)
+QueryProcessor -> ResultsPage : display(bookDetails)
+ResultsPage --> Member : showResults(bookDetails)
+
+@enduml

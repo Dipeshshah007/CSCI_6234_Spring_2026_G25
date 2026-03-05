@@ -1,0 +1,40 @@
+@startuml BorrowBook
+skinparam backgroundColor white
+skinparam SequenceBoxBackgroundColor white
+skinparam SequenceBoxBorderColor black
+skinparam ParticipantBackgroundColor white
+skinparam ParticipantBorderColor black
+skinparam SequenceLifeLineBorderColor black
+skinparam ArrowColor black
+skinparam sequenceArrowThickness 1.5
+skinparam roundcorner 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 11
+
+title Borrow Book
+
+actor Member
+boundary SearchInterface
+control SearchController
+entity Book
+boundary BookDetails
+control BorrowController
+boundary CheckoutForm
+control AvailabilityChecker
+entity LoanRecord
+
+Member -> SearchInterface : search(title / ISBN)
+SearchInterface -> SearchController : find(query)
+SearchController -> Book : check(ISBN)
+Book --> SearchController : bookDetails(title, availableCopies)
+SearchController -> BookDetails : display(bookDetails)
+Member -> CheckoutForm : confirm()
+BookDetails -> BorrowController : borrow(memberId, bookId)
+BorrowController -> AvailabilityChecker : process(memberId, ISBN)
+AvailabilityChecker -> Book : verify(memberId)
+Book --> AvailabilityChecker : verified
+AvailabilityChecker -> LoanRecord : create(loanId, memberId, ISBN, loanDate, dueDate, status)
+LoanRecord --> AvailabilityChecker : loanRecord
+BorrowController --> CheckoutForm : display(dueDate)
+
+@enduml
