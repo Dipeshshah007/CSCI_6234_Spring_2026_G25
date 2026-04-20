@@ -1,0 +1,4 @@
+Loan ID,Member,Book Title,Loan Date,Due Date,Return Date,Status
+3,Martin Johnson,The Great Gatsby,2026-04-01,2026-04-11,2026-04-16,returned
+2,Martin Johnson,The Great Gatsby,2026-04-16,2026-04-30,—,active
+1,Martin Johnson,Clean Code,2026-04-16,2026-04-30,—,active

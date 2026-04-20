@@ -1,0 +1,16 @@
+# Library Management System — CSCI 6234 Group G25
+# Install this one package before running:
+#
+#   pip install reportlab
+#
+# Everything else is built into Python 3.x:
+# - tkinter  (GUI)
+# - sqlite3  (Database)
+# - hashlib  (Password hashing)
+# - datetime (Date calculations)
+# - abc      (Abstract base classes)
+# - smtplib  (Email sending)
+# - csv      (CSV export)
+# - ssl      (Secure email connection)
+
+reportlab>=4.0
